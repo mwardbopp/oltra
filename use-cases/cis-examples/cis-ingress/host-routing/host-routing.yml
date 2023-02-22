@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+ name: fqdn-based-routing
+ annotations:
+  virtual-server.f5.com/ip: "10.1.10.50"
+  virtual-server.f5.com/balance: "round-robin"
+  virtual-server.f5.com/http-port: "80"
+spec:
+ ingressClassName: f5
+ rules:
+ - host: fqdn1.f5demo.local
+   http:
+     paths:
+       - path: /
+         pathType: Prefix
+         backend:
+           service:
+             name: app1-svc
+             port:
+               number: 80
+ - host: fqdn2.f5demo.local
+   http:
+     paths:
+       - path: /
+         pathType: Prefix
+         backend:
+           service:
+             name: app2-svc
+             port:
+               number: 80

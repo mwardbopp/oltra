@@ -1,0 +1,15 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: www-ingress
+  namespace: layer7
+spec:
+  host: l7-www.f5demo.local
+  upstreams:
+  - name: echo
+    service: echo-svc
+    port: 80
+  routes:
+  - path: /
+    action:
+      pass: echo
